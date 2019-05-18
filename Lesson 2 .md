@@ -1,18 +1,21 @@
- # RenderSection - hiển thị section
-- Trong trang Layout/MasterLayout => ta tạo các vùng để nhúng Section vào
+# RenderPage - hiển thị ra PartialView
 
-__Layout.cshtml__
+## Partial View là gì?
+Về cơ bản là một phần của trang web. Khi mà các đoạn code có thể tái sử dụng ở nhiều vị trí ta nên tách nó ra thành PartialView để hiển thị.
+
+Lý do: tái sử dụng code, viết gọn hơn và nhiều tiện ích khác
+
+Ví dụ ta có một đoạn code hiển thị sideBar mà trong layout quá dài => tạo một View dưới dạng Partial view và sử dụng bằng cách
+## Cách sử dụng
+### Cách 1: Render dưới dạng Static View - Truyền vào View không có dữ liệu gì cả. Thuần túy là hiển thị
+Tạo view có tên là sideBar
+
+__SideBar.cshtml__
 ```html
-<body>
-    <!-- Page level custom scripts -->
-    <script src="~/Assets/Admin/js/demo/chart-area-demo.js"></script>
-    <script src="~/Assets/Admin/js/demo/chart-pie-demo.js"></script>
-    @RenderSection("ClientScript", false); 
-    // nếu để true thì tất cả các trang sử dụng layout này phải có section này. Nếu không có thì nó sẽ báo lỗi
-    // Để false thì tùy chọn có cũng được mà không có cũng đuọc
-</body>
+<div>Đây là sidebar</div>
 ```
-- Khi một file áp dụng layout trên, ta muốn chèn các đoạn section vào thì sẽ làm như sau
+
+Sử dụng partial view side bar trong một page khác
 __Index.cshtml__
 ```html
 @{
@@ -20,11 +23,8 @@ __Index.cshtml__
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; // sử dụng section
 }
 <div>Đây là trang chủ</div>
-@section ClientScript 
-{
-    // chèn code vào đây để sử dụng trong section
-}
-```
+@RenderPage("SideBar.cshtml") // sử dụng partial view Side bar
 
-## Ứng dụng: 
-Trong trang chủ nhiều khi ta muốn hiển thị thêm phần danh mục, trang chi tiết sản phẩm lại không có mà ta lại muốn cả 2 dùng chung Layout. Thế nên là ta chèn trước ở trang chủ một đoạn section là category. Sau đó trang nào muốn có Category thì ta chèn category vào đó
+```
+### Cách 2: Truyền dưới dạng Dynamic view
+## Ứng dụng : 
